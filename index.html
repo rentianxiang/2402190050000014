@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<script src='https://cxppusa1formui01cdnsa01-endpoint.azureedge.net/apj/FormCapture/FormCapture.bundle.js'></script>
+
+<body>
+    <p>Contact us at xxx@xxx.com</p>
+    <form id="form1" action="">
+        <p>FirstName: <input type="text" name="firstName"/></p>
+        <p>LastName: <input type="text" name="lastName"/></p>
+        <p>EmailAddress: <input type="text" name="emailAddress"/></p>
+        <p>MobilePhone: <input type="text" name="mobilePhone"/></p>
+        <p>Consent: <input type="checkbox" name="consent"/></p>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+<script>
+    // NOTE: for reference see https://go.microsoft.com/fwlink/?linkid=2250770
+    d365mktformcapture.waitForElement("#form1") // example: "#form1" as a selector for form with id="form1"
+        .then(form => {
+            const mappings = [
+                {
+                    FormFieldName: "firstName",
+                    DataverseFieldName: "firstname",
+                },
+                {
+                    FormFieldName: "lastName",
+                    DataverseFieldName: "lastname",
+                },
+                {
+                    FormFieldName: "emailAddress",
+                    DataverseFieldName: "emailaddress1",
+                },
+                {
+                    FormFieldName: "mobilePhone",
+                    DataverseFieldName: "mobilephone",
+                },
+                {
+                    FormFieldName: "consent",
+                    DataverseFieldName: "msdynmkt_purposeid;channels;optinwhenchecked",
+                    DataverseFieldValue: "178acc60-f310-4dd2-b1be-5628f632b156;Email,Text;true",
+                },
+
+            ];
+
+            form.addEventListener("submit", (e) => {
+                const serializedForm = d365mktformcapture.serializeForm(form, mappings);
+                // console.log(JSON.stringify(serializedForm)); // NOTE: enable for debugging
+                const payload = serializedForm.SerializedForm.build();
+
+                const captureConfig = {
+                    FormId: "f349e706-32e0-ee11-904d-002248ee93e0",
+                    FormApiUrl: "https://public-apj.mkt.dynamics.com/api/v1.0/orgs/aea7c092-8c76-4eae-b362-07c09b15d84d/landingpageforms"
+                }
+                d365mktformcapture.submitForm(captureConfig, payload);
+            }, true);
+        });
+</script>
+
+</html>
