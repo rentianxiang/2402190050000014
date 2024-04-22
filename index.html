@@ -17,6 +17,14 @@
         <p>EmailAddress: <input type="text" name="emailAddress" /></p>
         <p>MobilePhone: <input type="text" name="mobilePhone" /></p>
         <p>Consent: <input type="checkbox" name="consent" /></p>
+        <label for="need">Choose a car:</label>
+        <select name="need" id="need" form="form1">
+            <option value="musthave">Must Have</option>
+            <option value="shouldhave">Should Have</option>
+            <option value="goodtohave">Good To Have</option>
+            <option value="noneed">No Need</option>
+        </select>
+        <br />
         <input type="submit" value="Submit">
     </form>
 </body>
@@ -49,7 +57,16 @@
                     DataverseFieldName: "msdynmkt_purposeid;channels;optinwhenchecked", // Dynmkt
                     DataverseFieldValue: "1909a98e-8ffd-4768-9874-c0bef3282a9e;Email,Text;true", // Dynmkt
                 },
-
+                {
+                    FormFieldName: "need",
+                    DataverseFieldName: "need",
+                    DataverseFieldValue: [
+                        { FormValue: "musthave", DataverseValue: "0" }, // Must have
+                        { FormValue: "shouldhave", DataverseValue: "1" }, // Should have
+                        { FormValue: "goodtohave", DataverseValue: "2" }, // Good to have
+                        { FormValue: "noneed", DataverseValue: "3" }, // No need
+                    ],
+                },
             ];
 
             // //rtx
